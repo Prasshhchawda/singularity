@@ -5,10 +5,45 @@
 //     React/TanStack dedupe, error logger plugins, and sandbox detection (port/host/strictPort).
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+import { resolve } from "node:path";
+import { VitePWA } from "vite-plugin-pwa";
 import { loadEnv } from "vite";
 
 export default defineConfig({
+  nitro: {
+    preset: "node-server",
+  },
   plugins: [
+    VitePWA({
+      outDir: resolve(process.cwd(), ".output", "public"),
+      registerType: "prompt",
+      injectRegister: null,
+      manifest: {
+        name: "Singularity",
+        short_name: "Singularity",
+        description: "Your AI-powered workspace.",
+        theme_color: "#09090b",
+        background_color: "#09090b",
+        display: "standalone",
+        start_url: "/",
+        scope: "/",
+        icons: [
+          {
+            src: "/pwa-icon.svg",
+            sizes: "any",
+            type: "image/svg+xml",
+            purpose: "any",
+          },
+        ],
+      },
+      workbox: {
+        navigateFallback: null,
+        globPatterns: ["assets/**/*.{js,css,woff2,png,svg,webp}"],
+      },
+      devOptions: {
+        enabled: false,
+      },
+    }),
     {
       name: "singularity-server-env",
       config(_config, { mode }) {
