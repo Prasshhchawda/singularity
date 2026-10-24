@@ -1,5 +1,18 @@
 import { useEffect, useRef, useState, type FormEvent } from "react";
-import { Bot, Check, LoaderCircle, Plus, Send, Sparkles, UserRound } from "lucide-react";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+import * as Select from "@radix-ui/react-select";
+import {
+  Bot,
+  Check,
+  ChevronDown,
+  CircleArrowLeft,
+  LoaderCircle,
+  Plus,
+  Send,
+  Sparkles,
+  UserRound,
+  X,
+} from "lucide-react";
 
 const AGENTS = [
   {
@@ -40,22 +53,73 @@ type ChatMessage = {
 type AgentThreads = Partial<Record<AgentName, ChatMessage[]>>;
 const EMPTY_MESSAGES: ChatMessage[] = [];
 
-export function AgentWorkspace() {
+export function AgentWorkspace({
+  showAllAgents,
+  onShowAllAgentsChange,
+}: {
+  showAllAgents: boolean;
+  onShowAllAgentsChange: (showAll: boolean) => void;
+}) {
   const [selectedAgent, setSelectedAgent] = useState<AgentName>(AGENTS[0].name);
+  const [teamAgents, setTeamAgents] = useState<AgentName[]>([AGENTS[0].name]);
   const [threads, setThreads] = useState<AgentThreads>({});
   const [draft, setDraft] = useState("");
   const [streaming, setStreaming] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [error, setError] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const messages = threads[selectedAgent] ?? EMPTY_MESSAGES;
+  const visibleAgents = showAllAgents
+    ? AGENTS
+    : AGENTS.filter((agent) => teamAgents.includes(agent.name));
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages, streaming]);
 
+  useEffect(() => {
+    if (!streaming) return;
+    const startedAt = Date.now();
+    const timer = window.setInterval(() => {
+      const elapsed = Date.now() - startedAt;
+      const estimatedProgress = Math.round(95 * (1 - Math.exp(-elapsed / 5000)));
+      setProgress((current) => (current >= 100 ? current : Math.min(95, estimatedProgress)));
+    }, 200);
+    return () => window.clearInterval(timer);
+  }, [streaming]);
+
+  useEffect(() => {
+    if (progress !== 100) return;
+    const timer = window.setTimeout(() => setProgress(0), 450);
+    return () => window.clearTimeout(timer);
+  }, [progress]);
+
   function selectAgent(agent: AgentName) {
     if (streaming) return;
     setSelectedAgent(agent);
+    setError("");
+  }
+
+  function chooseIndividualAgent(agent: AgentName) {
+    if (streaming) return;
+    setSelectedAgent(agent);
+    setTeamAgents([agent]);
+    onShowAllAgentsChange(false);
+    setError("");
+  }
+
+  function addTeamAgent(agent: AgentName) {
+    if (streaming || teamAgents.includes(agent)) return;
+    setTeamAgents((current) => [...current, agent]);
+    setSelectedAgent(agent);
+    setError("");
+  }
+
+  function removeTeamAgent(agent: AgentName) {
+    if (streaming || teamAgents.length <= 1) return;
+    const nextTeam = teamAgents.filter((name) => name !== agent);
+    setTeamAgents(nextTeam);
+    if (selectedAgent === agent) setSelectedAgent(nextTeam[0]);
     setError("");
   }
 
@@ -74,6 +138,7 @@ export function AgentWorkspace() {
     const history = threads[agent] ?? [];
     setDraft("");
     setError("");
+    setProgress(0);
     setStreaming(true);
     setThreads((current) => ({
       ...current,
@@ -113,6 +178,7 @@ export function AgentWorkspace() {
         throw new Error("The assistant returned an empty response. Please try again.");
       }
 
+      setProgress(100);
       setThreads((current) => {
         const thread = [...(current[agent] ?? [])];
         if (thread.at(-1)?.role === "assistant") {
@@ -121,6 +187,7 @@ export function AgentWorkspace() {
         return { ...current, [agent]: thread };
       });
     } catch (sendError) {
+      setProgress(0);
       setThreads((current) => {
         const thread = [...(current[agent] ?? [])];
         if (thread.at(-1)?.role === "assistant" && !thread.at(-1)?.content) thread.pop();
@@ -138,15 +205,52 @@ export function AgentWorkspace() {
 
   return (
     <section className="agent-workspace" aria-label="Agent workflow and chat">
+      <div className="agent-view-toggle-row">
+        {!showAllAgents && (
+          <button
+            className="agent-view-toggle"
+            type="button"
+            onClick={() => onShowAllAgentsChange(true)}
+            aria-label="Show all seven agents"
+            title="Show all seven agents"
+          >
+            <CircleArrowLeft size={19} strokeWidth={1.7} />
+          </button>
+        )}
+      </div>
       <div className="agent-workspace-heading">
         <div>
           <p className="inbox-kicker">SINGULARITY / OPERATIONS</p>
           <h1>Agent Workflow</h1>
           <p className="inbox-subtitle">Choose a specialist and start a conversation.</p>
         </div>
-        <span className="secure-indicator">
-          <span className="agent-online-dot" /> 7 agents available
-        </span>
+        <DropdownMenu.Root>
+          <DropdownMenu.Trigger asChild>
+            <button className="agent-individual-trigger" type="button" disabled={streaming}>
+              <span className="agent-online-dot" />
+              Get individual agent
+              <ChevronDown size={13} />
+            </button>
+          </DropdownMenu.Trigger>
+          <DropdownMenu.Portal>
+            <DropdownMenu.Content className="agent-picker-menu" align="end" sideOffset={8}>
+              <p className="agent-picker-heading">CHOOSE A SPECIALIST</p>
+              {AGENTS.map((agent) => (
+                <DropdownMenu.Item
+                  className="agent-picker-item"
+                  key={agent.name}
+                  onSelect={() => chooseIndividualAgent(agent.name)}
+                >
+                  <span>
+                    <strong>{agent.name}</strong>
+                    <small>{agent.focus}</small>
+                  </span>
+                  {selectedAgent === agent.name && <Check size={14} />}
+                </DropdownMenu.Item>
+              ))}
+            </DropdownMenu.Content>
+          </DropdownMenu.Portal>
+        </DropdownMenu.Root>
       </div>
 
       <div className="agent-flow-card">
@@ -155,10 +259,47 @@ export function AgentWorkspace() {
             <p className="agent-section-kicker">YOUR TEAM</p>
             <h2>Specialist workflow</h2>
           </div>
-          <span>SELECT AN AGENT TO CHAT</span>
+          <div className="agent-flow-actions">
+            {!showAllAgents && (
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger asChild>
+                  <button
+                    className="agent-flow-action"
+                    type="button"
+                    aria-label="Add an agent to your workflow"
+                    disabled={streaming || teamAgents.length === AGENTS.length}
+                  >
+                    <Plus size={14} />
+                    Add agent
+                  </button>
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Portal>
+                  <DropdownMenu.Content className="agent-picker-menu" align="end" sideOffset={7}>
+                    <p className="agent-picker-heading">ADD TO YOUR WORKFLOW</p>
+                    {AGENTS.filter((agent) => !teamAgents.includes(agent.name)).map((agent) => (
+                      <DropdownMenu.Item
+                        className="agent-picker-item"
+                        key={agent.name}
+                        onSelect={() => addTeamAgent(agent.name)}
+                      >
+                        <span>
+                          <strong>{agent.name}</strong>
+                          <small>{agent.focus}</small>
+                        </span>
+                        <Plus size={13} />
+                      </DropdownMenu.Item>
+                    ))}
+                  </DropdownMenu.Content>
+                </DropdownMenu.Portal>
+              </DropdownMenu.Root>
+            )}
+          </div>
         </div>
-        <div className="agent-flow" aria-label="Choose an agent">
-          {AGENTS.map((agent, index) => (
+        <div
+          className={`agent-flow${showAllAgents ? "" : " is-focused"}`}
+          aria-label="Choose an agent"
+        >
+          {visibleAgents.map((agent, index) => (
             <div className="agent-flow-step" key={agent.name}>
               <button
                 className={`agent-flow-node${selectedAgent === agent.name ? " is-active" : ""}`}
@@ -182,7 +323,23 @@ export function AgentWorkspace() {
                   {selectedAgent === agent.name ? "ACTIVE" : "READY"}
                 </span>
               </button>
-              {index < AGENTS.length - 1 && (
+              {!showAllAgents && (
+                <button
+                  className="agent-flow-node-remove"
+                  type="button"
+                  aria-label={`Remove ${agent.name} from your workflow`}
+                  title={
+                    teamAgents.length === 1
+                      ? "Keep at least one agent in your workflow"
+                      : "Remove agent"
+                  }
+                  disabled={streaming || teamAgents.length <= 1}
+                  onClick={() => removeTeamAgent(agent.name)}
+                >
+                  <X size={12} />
+                </button>
+              )}
+              {index < visibleAgents.length - 1 && (
                 <span className="agent-flow-connector" aria-hidden="true" />
               )}
             </div>
@@ -236,13 +393,21 @@ export function AgentWorkspace() {
                   <p>
                     {message.content || (streaming && index === messages.length - 1 ? " " : "")}
                   </p>
-                  {streaming && index === messages.length - 1 && message.role === "assistant" && (
-                    <span className="agent-typing" aria-label="Assistant is responding">
-                      <i />
-                      <i />
-                      <i />
-                    </span>
-                  )}
+                  {(streaming || progress === 100) &&
+                    index === messages.length - 1 &&
+                    message.role === "assistant" && (
+                      <div
+                        className="agent-response-progress"
+                        role="progressbar"
+                        aria-label={`${selectedAgent} is thinking`}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                        aria-valuenow={progress}
+                        aria-valuetext={progress === 100 ? "Response ready" : `${progress}%`}
+                      >
+                        <span style={{ width: `${progress}%` }} />
+                      </div>
+                    )}
                 </div>
               </article>
             ))
@@ -259,21 +424,45 @@ export function AgentWorkspace() {
         <form className="agent-composer" onSubmit={(event) => void sendMessage(event)}>
           <label className="agent-select-wrap">
             <span>ASSISTANT</span>
-            <select
+            <Select.Root
               value={selectedAgent}
               disabled={streaming}
-              onChange={(event) => {
-                const agent = AGENTS.find((item) => item.name === event.target.value);
+              onValueChange={(value) => {
+                const agent = AGENTS.find((item) => item.name === value);
                 if (agent) selectAgent(agent.name);
               }}
-              aria-label="Choose an AI agent"
             >
-              {AGENTS.map((agent) => (
-                <option key={agent.name} value={agent.name}>
-                  {agent.name}
-                </option>
-              ))}
-            </select>
+              <Select.Trigger className="agent-select-trigger" aria-label="Choose an AI agent">
+                <Select.Value />
+                <Select.Icon>
+                  <ChevronDown size={12} />
+                </Select.Icon>
+              </Select.Trigger>
+              <Select.Portal>
+                <Select.Content
+                  className="agent-select-content"
+                  position="popper"
+                  side="top"
+                  align="start"
+                  sideOffset={8}
+                >
+                  <Select.Viewport className="agent-select-viewport">
+                    {AGENTS.map((agent) => (
+                      <Select.Item
+                        className="agent-select-item"
+                        key={agent.name}
+                        value={agent.name}
+                      >
+                        <Select.ItemText>{agent.name}</Select.ItemText>
+                        <Select.ItemIndicator className="agent-select-item-indicator">
+                          <Check size={13} />
+                        </Select.ItemIndicator>
+                      </Select.Item>
+                    ))}
+                  </Select.Viewport>
+                </Select.Content>
+              </Select.Portal>
+            </Select.Root>
           </label>
           <div className="agent-composer-input">
             <textarea

@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Inbox, Workflow } from "lucide-react";
 import type { ReactNode } from "react";
+import { WorkspaceBackground } from "./workspace-background";
 
 export function WorkspaceShell({
   children,
@@ -12,11 +13,14 @@ export function WorkspaceShell({
   children: ReactNode;
 }) {
   return (
-    <main className="app-ambient min-h-dvh bg-background text-foreground">
+    <main className={`workspace-shell min-h-dvh text-foreground workspace-shell-${active}`}>
+      <WorkspaceBackground />
       <header className="workspace-header">
-        <Link to="/" className="font-display text-lg font-semibold tracking-tight">
-          Singularity
-        </Link>
+        <div className="workspace-brand">
+          <Link to="/" className="font-display text-lg font-semibold tracking-tight">
+            Singularity
+          </Link>
+        </div>
         <nav className="workspace-nav" aria-label="Workspace">
           <button
             type="button"
