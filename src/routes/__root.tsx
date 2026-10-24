@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { PwaUpdatePrompt } from "../components/pwa-update-prompt";
+import { PwaUpdateProvider } from "../components/pwa-update-provider";
 
 function NotFoundComponent() {
   return (
@@ -124,9 +125,11 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
-      <PwaUpdatePrompt />
+      <PwaUpdateProvider>
+        {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
+        <Outlet />
+        <PwaUpdatePrompt />
+      </PwaUpdateProvider>
     </QueryClientProvider>
   );
 }

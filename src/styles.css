@@ -519,6 +519,37 @@
 .workspace-nav button { display: inline-flex; min-height: 34px; align-items: center; justify-content: center; gap: 8px; padding: 0 12px; border: 1px solid transparent; border-radius: 999px; background: transparent; color: rgba(255, 255, 255, .48); font: inherit; font-size: 11px; transition: color .18s ease, background .18s ease, border-color .18s ease; }
 .workspace-nav button:hover, .workspace-nav button.selected { border-color: rgba(255, 255, 255, .12); background: rgba(255, 255, 255, .075); color: rgba(255, 255, 255, .93); }
 .workspace-secure { flex: 0 0 auto; color: rgba(255, 255, 255, .34); font: 500 8px ui-monospace, SFMono-Regular, Menlo, monospace; letter-spacing: .12em; }
+.workspace-header-actions { display: flex; flex: 0 0 auto; align-items: center; gap: 12px; }
+.workspace-settings-trigger { position: relative; display: grid; width: 34px; height: 34px; flex: 0 0 auto; place-items: center; border: 1px solid transparent; border-radius: 50%; background: transparent; color: rgba(255, 255, 255, .58); transition: color .18s ease, background .18s ease, border-color .18s ease; }
+.workspace-settings-trigger:hover, .workspace-settings-trigger[data-state="open"] { border-color: rgba(255, 255, 255, .14); background: rgba(255, 255, 255, .08); color: #fff; }
+.workspace-settings-trigger:focus-visible, .updates-dialog button:focus-visible { outline: 2px solid rgba(255, 255, 255, .7); outline-offset: 2px; }
+.workspace-settings-badge { position: absolute; top: 5px; right: 5px; width: 7px; height: 7px; border: 1px solid #121212; border-radius: 50%; background: #e8e8e8; box-shadow: 0 0 9px rgba(255, 255, 255, .5); }
+.workspace-settings-menu { width: 150px; }
+.updates-dialog-overlay { position: fixed; z-index: 60; inset: 0; background: rgba(0, 0, 0, .58); backdrop-filter: blur(5px); animation: ceo-inbox-arrive .14s ease-out both; }
+.updates-dialog { position: fixed; z-index: 61; top: 50%; left: 50%; width: min(410px, calc(100vw - 32px)); padding: 22px; transform: translate(-50%, -50%); border: 1px solid rgba(255, 255, 255, .15); border-radius: 18px; background: linear-gradient(145deg, rgba(34, 34, 34, .97), rgba(16, 16, 16, .97)); color: rgba(255, 255, 255, .92); box-shadow: 0 24px 80px rgba(0, 0, 0, .55), inset 0 1px rgba(255, 255, 255, .1); backdrop-filter: blur(28px); animation: ceo-detail-enter .2s cubic-bezier(.2, .7, .2, 1) both; }
+.updates-dialog-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+.updates-dialog-heading .agent-section-kicker { margin: 0 0 7px; color: rgba(255, 255, 255, .4); }
+.updates-dialog-title { margin: 0; font: 500 22px/1.2 "Space Grotesk", sans-serif; letter-spacing: -.03em; }
+.updates-dialog-description { margin-top: 7px; color: rgba(255, 255, 255, .47); font-size: 11px; }
+.updates-dialog-close { display: grid; width: 30px; height: 30px; place-items: center; border: 1px solid transparent; border-radius: 50%; background: transparent; color: rgba(255, 255, 255, .55); }
+.updates-dialog-close:hover { border-color: rgba(255, 255, 255, .12); background: rgba(255, 255, 255, .08); color: #fff; }
+.updates-status { display: flex; align-items: center; gap: 9px; margin-top: 22px; padding: 13px; border: 1px solid rgba(255, 255, 255, .1); border-radius: 11px; background: rgba(255, 255, 255, .04); }
+.updates-status strong { font-size: 12px; font-weight: 500; }
+.updates-status-indicator { width: 7px; height: 7px; flex: 0 0 auto; border-radius: 50%; background: rgba(255, 255, 255, .42); }
+.updates-status-indicator.is-available { background: #e8e8e8; box-shadow: 0 0 10px rgba(255, 255, 255, .6); }
+.updates-build-info { display: grid; gap: 12px; margin: 17px 0 0; padding: 0 2px; }
+.updates-build-info > div { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.updates-build-info dt { color: rgba(255, 255, 255, .44); font-size: 10px; }
+.updates-build-info dd { margin: 0; color: rgba(255, 255, 255, .8); font: 10px ui-monospace, SFMono-Regular, Menlo, monospace; }
+.updates-error, .updates-hint { margin: 14px 0 0; color: rgba(255, 255, 255, .62); font-size: 10px; line-height: 1.5; }
+.updates-error { color: rgba(255, 190, 190, .9); }
+.updates-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 22px; }
+.updates-actions button { min-height: 35px; padding: 0 12px; border: 1px solid rgba(255, 255, 255, .13); border-radius: 9px; font: inherit; font-size: 10px; transition: background .18s ease, border-color .18s ease, opacity .18s ease; }
+.updates-actions button:disabled { cursor: not-allowed; opacity: .45; }
+.updates-secondary-button { background: rgba(255, 255, 255, .045); color: rgba(255, 255, 255, .76); }
+.updates-secondary-button:hover:not(:disabled) { background: rgba(255, 255, 255, .09); }
+.updates-primary-button { border-color: rgba(255, 255, 255, .72) !important; background: rgba(255, 255, 255, .92); color: #111; font-weight: 500 !important; }
+.updates-primary-button:hover:not(:disabled) { background: #fff; }
 
 .agent-workspace {
   min-height: calc(100dvh - 58px);
@@ -667,7 +698,8 @@
   .workspace-brand > a { font-size: 15px; }
   .workspace-nav { order: 3; width: 100%; justify-content: center; }
   .workspace-nav button { flex: 1; padding: 0 7px; font-size: 10px; }
-  .workspace-secure { margin-left: auto; font-size: 7px; }
+  .workspace-header-actions { margin-left: auto; gap: 7px; }
+  .workspace-secure { margin-left: 0; font-size: 7px; }
   .agent-workspace { min-height: calc(100dvh - 102px); padding: 28px 13px 32px; }
   .agent-flow { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .agent-flow-node { min-height: 79px; }

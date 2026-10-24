@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Inbox, Workflow } from "lucide-react";
 import type { ReactNode } from "react";
+import { AppSettings } from "./app-settings";
 import { WorkspaceBackground } from "./workspace-background";
 
 export function WorkspaceShell({
@@ -41,7 +42,10 @@ export function WorkspaceShell({
             Agent Workflow
           </button>
         </nav>
-        <span className="workspace-secure">PRIVATE WORKSPACE</span>
+        <div className="workspace-header-actions">
+          <span className="workspace-secure">PRIVATE WORKSPACE</span>
+          <AppSettings />
+        </div>
       </header>
       {children}
     </main>
