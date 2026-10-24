@@ -10,10 +10,15 @@ export const Route = createFileRoute("/")({
 
 function HomePage() {
   const [page, setPage] = useState<"home" | "workflow">("home");
+  const [showAllAgents, setShowAllAgents] = useState(true);
 
   return (
     <WorkspaceShell active={page} onNavigate={setPage}>
-      {page === "home" ? <CEOInbox /> : <AgentWorkspace />}
+      {page === "home" ? (
+        <CEOInbox />
+      ) : (
+        <AgentWorkspace showAllAgents={showAllAgents} onShowAllAgentsChange={setShowAllAgents} />
+      )}
     </WorkspaceShell>
   );
 }
