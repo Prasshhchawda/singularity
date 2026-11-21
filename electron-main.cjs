@@ -2,6 +2,7 @@ const { app, BrowserWindow, dialog, shell } = require("electron");
 const { spawn } = require("node:child_process");
 const fs = require("node:fs");
 const path = require("node:path");
+const { pathToFileURL } = require("node:url");
 const dotenv = require("dotenv");
 
 const APP_HOST = "127.0.0.1";
@@ -29,15 +30,23 @@ function openExternalUrl(url) {
 }
 
 function launchService(scriptPath, label, environment) {
-  const child = spawn(process.execPath, [scriptPath], {
-    cwd: app.isPackaged ? app.getPath("userData") : app.getAppPath(),
-    env: {
-      ...process.env,
-      ...environment,
-      ELECTRON_RUN_AS_NODE: "1",
+  const moduleUrl = pathToFileURL(scriptPath).href;
+  const child = spawn(
+    process.execPath,
+    [
+      "-e",
+      `import(${JSON.stringify(moduleUrl)}).catch((error) => { console.error(error); process.exitCode = 1; });`,
+    ],
+    {
+      cwd: app.isPackaged ? app.getPath("userData") : app.getAppPath(),
+      env: {
+        ...process.env,
+        ...environment,
+        ELECTRON_RUN_AS_NODE: "1",
+      },
+      stdio: ["ignore", "pipe", "pipe"],
     },
-    stdio: ["ignore", "pipe", "pipe"],
-  });
+  );
 
   child.spawnError = undefined;
   child.once("error", (error) => {

@@ -40,6 +40,25 @@ Electron's user-data directory; it is deliberately not included in the installer
 Unsigned macOS builds may show Gatekeeper warnings; signing and notarization are
 needed for a smoother public download.
 
+### Build and download macOS installers with GitHub Actions
+
+Add `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` as repository Actions
+secrets. These public client configuration values are embedded into the frontend
+at build time. Do not add `GEMINI_API_KEY` as a workflow build secret; the build
+explicitly clears it, and Gemini reads it only at runtime.
+
+Run **Build macOS DMG** from the repository's Actions tab using **Run workflow**,
+or push a matching change to `main`. The run creates separate
+`Singularity-mac-arm64` and `Singularity-mac-x64` artifacts. Download the
+matching artifact from the completed workflow run, extract the `.dmg`, open it,
+and drag Singularity to Applications. Since these builds are unsigned, macOS may
+block the first launch; use Control-click > **Open** to approve it.
+
+To enable Gemini in the installed app, create
+`~/Library/Application Support/Singularity/.env` containing `GEMINI_API_KEY=...`.
+This key is read by the packaged server at runtime and is not included in the
+DMG.
+
 ## Built with
 
 - TanStack Start
