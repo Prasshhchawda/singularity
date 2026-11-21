@@ -68,7 +68,7 @@ jobs:
           GEMINI_API_KEY: ""
 
       - name: Package macOS DMG
-        run: npx electron-builder --mac dmg --${{ matrix.arch }}
+        run: npx electron-builder --mac dmg --${{ matrix.arch }} --publish never
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: "false"
 
