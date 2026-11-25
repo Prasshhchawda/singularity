@@ -27,6 +27,27 @@ Set `GEMINI_API_KEY` in the root `.env.local` file (do not use a `VITE_` prefix)
 the key is read only by the server-side `/api/chat` route. Start the app with
 `npm run dev`, then open <http://localhost:5173/> to use the chat.
 
+### Demo task agent on Render
+
+The demo workspace sends tasks to the standalone Gemini service in
+`agent-server.js`. Deploy it to Render as a **Web Service** with Node.js 22:
+
+- **Build command:** `npm ci`
+- **Start command:** `npm run server`
+- **Environment variables:**
+  - `GEMINI_API_KEY` — your Gemini key; keep it only in Render's backend
+    environment, never in a `VITE_` variable.
+  - `FRONTEND_ORIGIN` — the exact deployed frontend origin, such as
+    `https://your-app.example.com` (no path). Multiple comma-separated origins
+    are supported.
+
+The service listens on Render's `PORT`, exposes `GET /health`, and accepts demo
+tasks at `POST /api/agent`. Set `VITE_AGENT_API_URL` in the frontend hosting
+provider to the complete endpoint, for example
+`https://your-service.onrender.com/api/agent`, then rebuild/redeploy the
+frontend. Locally, `npm run dev:all` starts the Vite app and this service;
+`GEMINI_API_KEY` can be placed in root `.env.local`.
+
 ## Desktop application
 
 Run the Electron app against the Vite development server with `npm run desktop:dev`.

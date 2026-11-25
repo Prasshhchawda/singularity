@@ -12,7 +12,7 @@ export const Route = createFileRoute("/agent-workspace")({
 
 type Agent = { id: string; name: string; role: string };
 type ChatMessage = { text: string; sender: "you" | "agent" };
-type TaskState = "Working" | "Ready" | "Approved" | "Preview only" | "Failed";
+type TaskState = "Working" | "Ready" | "Approved" | "Failed";
 type ReviewTask = {
   id: string;
   text: string;
@@ -176,24 +176,7 @@ function AgentWorkspacePage() {
     const text = message.trim();
     const taskId = crypto.randomUUID();
     const taskAgent = selectedAgents[0];
-    setTasks((current) => [
-      { id: taskId, text, agent: taskAgent, state: demo ? "Preview only" : "Working" },
-      ...current,
-    ]);
-
-    if (demo) {
-      setMessages((current) => [
-        ...current,
-        { text, sender: "you" },
-        {
-          text: `Demo only: ${taskAgent.name} chat is not connected to an AI service.`,
-          sender: "agent",
-        },
-      ]);
-      setMessage("");
-      setChatError("");
-      return;
-    }
+    setTasks((current) => [{ id: taskId, text, agent: taskAgent, state: "Working" }, ...current]);
 
     setMessages((current) => [...current, { text, sender: "you" }]);
     setMessage("");
@@ -206,26 +189,41 @@ function AgentWorkspacePage() {
         role: item.sender === "agent" ? ("assistant" as const) : ("user" as const),
         content: item.text,
       }));
+      const agentApiUrl = import.meta.env.VITE_AGENT_API_URL?.trim();
+      const endpoint = demo
+        ? agentApiUrl || (import.meta.env.DEV ? "http://localhost:3001/api/agent" : "")
+        : "/api/chat";
+      if (!endpoint) {
+        throw new Error("Set VITE_AGENT_API_URL to your Render backend /api/agent URL.");
+      }
+      const payload = demo
+        ? {
+            task: text,
+            agentName: primaryAgent.name,
+            agentRole: primaryAgent.role,
+            previousResults: history,
+          }
+        : {
+            message: text,
+            callId: meetingAccess?.callId,
+            accessCode: meetingAccess?.accessCode,
+            agent: {
+              name: primaryAgent.name,
+              role:
+                selectedAgents.length > 1
+                  ? `${primaryAgent.role}; coordinate with ${selectedAgents
+                      .slice(1)
+                      .map((agent) => agent.name)
+                      .join(", ")}`
+                  : primaryAgent.role,
+            },
+            history,
+          };
 
-      const response = await fetch("/api/chat", {
+      const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message: text,
-          callId: meetingAccess?.callId,
-          accessCode: meetingAccess?.accessCode,
-          agent: {
-            name: primaryAgent.name,
-            role:
-              selectedAgents.length > 1
-                ? `${primaryAgent.role}; coordinate with ${selectedAgents
-                    .slice(1)
-                    .map((agent) => agent.name)
-                    .join(", ")}`
-                : primaryAgent.role,
-          },
-          history,
-        }),
+        body: JSON.stringify(payload),
       });
 
       const result = (await response.json()) as { reply?: unknown; error?: unknown };
@@ -499,8 +497,7 @@ function AgentWorkspacePage() {
               <h2>{demo ? "Assign Tasks & Review Work · Demo" : "AI Employee Workspace"}</h2>
             </div>
             <div className="agent-page-status">
-              <span className="agent-page-online" />{" "}
-              {demo ? "Demo only — no real access" : "Workspace active"}
+              <span className="agent-page-online" /> {demo ? "Demo workspace" : "Workspace active"}
             </div>
           </header>
 
@@ -516,7 +513,8 @@ function AgentWorkspacePage() {
                 {selectedAgents.length === 1 ? selectedAgents[0]?.role : "Your AI team is selected"}
               </p>
               <span className="agent-page-working">
-                <span className="agent-page-online" /> {demo ? "Demo preview" : "Ready to work"}
+                <span className="agent-page-online" />{" "}
+                {demo ? "Gemini task agent" : "Ready to work"}
               </span>
             </div>
 
@@ -611,7 +609,7 @@ function AgentWorkspacePage() {
             </form>
             <p className="agent-page-disclaimer">
               {demo
-                ? "Demo preview only. No AI service or real customer data is connected."
+                ? "Gemini demo mode. Do not submit sensitive or confidential information."
                 : "AI employees can make mistakes. Review important work."}
             </p>
           </section>
