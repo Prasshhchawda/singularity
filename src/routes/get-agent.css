@@ -1,0 +1,167 @@
+.get-agent-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  color: #0f172a;
+  background:
+    radial-gradient(circle at 75% 20%, rgba(99,102,241,.14), transparent 34%),
+    linear-gradient(145deg, #fafafc 0%, #fff 60%, #f5f3ff 100%);
+  font-family: "DM Sans", Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+.get-agent-card {
+  width: min(940px, 100%);
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  border-radius: 24px;
+  background: #fff;
+  box-shadow: 0 24px 70px rgba(15,23,42,.10);
+}
+
+.get-agent-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 26px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.get-agent-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #0f172a;
+  font: 700 19px "Space Grotesk", sans-serif;
+  letter-spacing: -.06em;
+  text-decoration: none;
+}
+
+.get-agent-brand-mark {
+  width: 35px;
+  height: 35px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+  color: white;
+  background: linear-gradient(135deg,#6366f1,#8b5cf6);
+  font-size: 19px;
+}
+
+.get-agent-private {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #64748b;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .12em;
+}
+
+.get-agent-content { display: grid; grid-template-columns: 1fr 1fr; }
+.meeting-request, .workspace-access { min-height: 430px; padding: 36px clamp(22px, 4vw, 42px); }
+.meeting-request { border-right: 1px solid #e5e7eb; }
+.get-agent-eyebrow { color: #6366f1; font-size: 9px; font-weight: 800; letter-spacing: 1.4px; }
+.meeting-request h1, .workspace-access h2 {
+  margin: 12px 0 8px;
+  color: #0f172a;
+  font: 700 28px/1.12 "Space Grotesk", sans-serif;
+  letter-spacing: -1.2px;
+}
+.meeting-request > p, .workspace-access > p {
+  margin: 0;
+  color: #64748b;
+  font-size: 12px;
+  line-height: 1.65;
+}
+
+.meeting-timer {
+  width: 148px;
+  height: 148px;
+  display: grid;
+  place-content: center;
+  gap: 2px;
+  margin: 28px auto 20px;
+  border: 1px solid #ddd6fe;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 59%, #f7f5ff 60%);
+  box-shadow: 0 0 0 6px #f7f5ff, 0 12px 35px rgba(99,102,241,.11);
+  text-align: center;
+}
+.meeting-timer strong { font: 700 31px "Space Grotesk", sans-serif; font-variant-numeric: tabular-nums; }
+.meeting-timer span { color: #94a3b8; font-size: 8px; font-weight: 800; letter-spacing: 1px; }
+.meeting-timer.complete { border-color: #a7f3d0; box-shadow: 0 0 0 6px #ecfdf5, 0 12px 35px rgba(16,185,129,.1); }
+
+.meeting-state {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #64748b;
+  font-size: 11px;
+  text-align: center;
+}
+.meeting-state.ready { color: #059669; }
+.meeting-state.error { color: #dc2626; }
+.meeting-link {
+  max-width: 100%;
+  display: block;
+  overflow: hidden;
+  margin-top: 7px;
+  color: #4f46e5;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.get-agent-spin { animation: get-agent-spin 1s linear infinite; }
+.get-agent-scheduled { margin-top: 14px !important; color: #94a3b8 !important; font-size: 10px !important; text-align: center; }
+
+.workspace-access form { margin-top: 25px; }
+.workspace-access label { display: block; margin-bottom: 8px; color: #334155; font-size: 11px; font-weight: 700; }
+.key-input-wrap {
+  height: 49px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border: 1px solid #e5e7eb;
+  border-radius: 11px;
+  padding: 0 12px;
+  color: #94a3b8;
+  background: #fafafc;
+}
+.key-input-wrap:focus-within { border-color: #818cf8; box-shadow: 0 0 0 3px #eef2ff; }
+.key-input-wrap input { min-width: 0; flex: 1; border: 0; outline: 0; color: #0f172a; background: transparent; font: inherit; font-size: 12px; }
+.workspace-access-button {
+  width: 100%;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 12px;
+  border: 0;
+  border-radius: 11px;
+  color: white;
+  background: #0f172a;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.workspace-access-button:hover { background: #273449; }
+.workspace-access-button:disabled { color: #94a3b8; background: #e2e8f0; cursor: not-allowed; }
+.workspace-access-error { margin: 9px 0 0 !important; color: #dc2626 !important; font-size: 10px !important; }
+.get-agent-verified { margin-top: 24px; }
+.get-agent-success { display: flex; align-items: center; gap: 7px; color: #059669; font-size: 11px; font-weight: 700; }
+.get-agent-code-note { margin-top: 20px !important; color: #94a3b8 !important; font-size: 10px !important; }
+
+@keyframes get-agent-spin { to { transform: rotate(360deg); } }
+@media (max-width: 700px) {
+  .get-agent-page { place-items: start center; padding: 12px; }
+  .get-agent-card { margin: 12px 0; }
+  .get-agent-header { padding: 16px 18px; }
+  .get-agent-content { grid-template-columns: 1fr; }
+  .meeting-request { border-right: 0; border-bottom: 1px solid #e5e7eb; }
+  .meeting-request, .workspace-access { min-height: auto; padding: 26px 20px; }
+}

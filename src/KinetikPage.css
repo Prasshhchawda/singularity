@@ -1,0 +1,242 @@
+.kinetik-site {
+  min-height: 100vh;
+  background: #fff;
+  color: #111;
+  font-family: Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+}
+
+.kinetik-site, .kinetik-site * { box-sizing: border-box; }
+.kinetik-site button, .kinetik-site input { font: inherit; }
+.kinetik-site button { cursor: pointer; }
+
+.kinetik-navbar {
+  height: 72px; background: white; position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 3%; border-bottom: 1px solid #eee; gap: 25px;
+}
+.kinetik-logo { display: flex; align-items: center; gap: 9px; border: 0; background: transparent; color: #111; font-weight: 1000; font-style: italic; font-size: 25px; letter-spacing: -1.5px; }
+.kinetik-logo-icon { background: #111; color: white; width: 38px; height: 37px; border-radius: 9px; display: grid; place-items: center; font-style: normal; }
+.kinetik-nav-links { display: flex; align-items: center; gap: 32px; }
+.kinetik-nav-links button { border: 0; background: transparent; color: #111; font-size: 16px; }
+.kinetik-nav-links button:hover { color: #db3215; }
+.kinetik-nav-right { display: flex; align-items: center; gap: 20px; }
+.kinetik-search-box { background: #f4f4f4; border-radius: 30px; padding: 12px 16px; display: flex; align-items: center; gap: 10px; width: 225px; }
+.kinetik-search-box input { border: 0; outline: 0; background: transparent; width: 100%; }
+.kinetik-nav-icon { border: 0; background: transparent; font-size: 23px; position: relative; color: #111; }
+.kinetik-cart-count { position: absolute; right: -9px; top: -9px; background: #111; color: white; border-radius: 50%; font-size: 11px; padding: 3px 6px; }
+
+.kinetik-hero {
+  background: radial-gradient(ellipse at 70% 20%, #303030 0%, #151515 55%, #000 100%);
+  color: white; min-height: 745px; position: relative; display: flex; align-items: center;
+  padding: 70px 3%; overflow: hidden;
+}
+.kinetik-hero:after { content: "4"; position: absolute; right: 2%; top: 130px; font-size: 560px; font-weight: 1000; font-style: italic; color: rgba(255,255,255,.025); pointer-events: none; }
+.kinetik-hero-content { position: relative; z-index: 2; max-width: 800px; }
+.kinetik-eyebrow { font-weight: 600; font-size: 17px; margin-bottom: 12px; }
+.kinetik-hero h1 { font-size: clamp(85px, 12vw, 190px); line-height: .78; letter-spacing: -8px; font-weight: 1000; margin: 0 0 30px; }
+.kinetik-hero p { font-size: 21px; line-height: 1.55; max-width: 660px; color: #eee; }
+.kinetik-hero-buttons { display: flex; gap: 14px; margin-top: 30px; }
+.kinetik-btn-white, .kinetik-btn-outline { border-radius: 50px; padding: 17px 29px; font-size: 16px; border: 1px solid white; }
+.kinetik-btn-white { background: white; color: #111; }
+.kinetik-btn-outline { background: transparent; color: white; }
+.kinetik-btn-white:hover { background: #ddd; }
+.kinetik-btn-outline:hover { background: white; color: #111; }
+
+.kinetik-crew { padding: 65px 3% 55px; }
+.kinetik-shop-label { color: #777; margin-bottom: 5px; }
+.kinetik-crew-heading { display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.kinetik-crew-heading h2 { font-size: 66px; letter-spacing: -3px; margin: 0 0 30px; font-weight: 1000; }
+.kinetik-sort { color: #777; font-size: 14px; }
+.kinetik-filters { display: flex; gap: 9px; flex-wrap: wrap; margin-bottom: 45px; }
+.kinetik-filter { background: white; color: #111; border: 1px solid #ddd; border-radius: 40px; padding: 13px 24px; }
+.kinetik-filter.active { background: #111; color: white; border-color: #111; }
+.kinetik-filter:hover { border-color: #111; }
+
+.kinetik-employee-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 45px 18px; }
+.kinetik-employee-card { min-width: 0; }
+.kinetik-employee-image { height: 360px; background: #f3f3f3; display: flex; align-items: center; justify-content: center; position: relative; }
+.kinetik-employee-letter { font-size: 160px; line-height: 1; font-weight: 1000; }
+.kinetik-employee-icon { position: absolute; top: 62%; width: 63px; height: 63px; border-radius: 50%; color: white; display: grid; place-items: center; font-size: 27px; }
+.kinetik-favorite { position: absolute; top: 14px; right: 14px; width: 42px; height: 42px; border-radius: 50%; background: white; border: none; font-size: 22px; color: #111; }
+.kinetik-favorite.selected { color: #df3215; }
+.kinetik-employee-info { padding-top: 15px; }
+.kinetik-tag { color: #df3215; font-size: 15px; margin-bottom: 5px; }
+.kinetik-employee-name { font-size: 18px; margin-bottom: 5px; }
+.kinetik-employee-desc { font-size: 17px; color: #777; line-height: 1.5; }
+.kinetik-skills { color: #777; margin-top: 3px; font-size: 17px; }
+.kinetik-price { font-size: 17px; margin-top: 15px; }
+.kinetik-price span { color: #777; }
+.kinetik-hire-small { background: #111; color: white; border: none; border-radius: 30px; padding: 10px 18px; margin-top: 13px; }
+.kinetik-hire-small:hover { background: #df3215; }
+
+.kinetik-bundle { background: #111; color: white; height: 360px; padding: 35px 30px; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+.kinetik-bundle:after { content: "ϟ"; position: absolute; right: 5px; top: 30px; font-size: 300px; color: #1d1d1d; }
+.kinetik-bundle small, .kinetik-bundle h2, .kinetik-bundle p, .kinetik-bundle button { position: relative; z-index: 1; }
+.kinetik-bundle h2 { font-size: 43px; line-height: .9; margin: 40px 0 10px; letter-spacing: -2px; }
+.kinetik-bundle p { color: #bbb; line-height: 1.5; }
+.kinetik-bundle button { background: white; color: black; border: 0; border-radius: 30px; padding: 13px 24px; align-self: flex-start; }
+
+.kinetik-featured { padding: 40px 3% 55px; }
+.kinetik-featured h2 { font-size: 28px; font-weight: 500; margin-bottom: 30px; }
+.kinetik-featured-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.kinetik-feature-card { height: 700px; padding: 40px 35px; display: flex; flex-direction: column; justify-content: flex-end; color: white; position: relative; overflow: hidden; }
+.kinetik-feature-card:before { content: ""; position: absolute; inset: 0; background: linear-gradient(transparent 25%,rgba(0,0,0,.7)); }
+.kinetik-feature-card.red { background: linear-gradient(145deg,#db3215,#320b03); }
+.kinetik-feature-card.blue { background: linear-gradient(145deg,#1748e8,#030a25); }
+.kinetik-feature-icon { position: absolute; top: 80px; right: 65px; font-size: 150px; opacity: .15; }
+.kinetik-feature-card > * { position: relative; }
+.kinetik-feature-card h3 { font-size: 60px; line-height: .9; letter-spacing: -2px; margin: 12px 0 22px; }
+.kinetik-feature-card button { background: white; color: #111; border: 0; border-radius: 30px; padding: 14px 23px; align-self: flex-start; }
+
+.kinetik-footer { border-top: 3px solid #111; padding: 65px 3% 30px; background: #fff; }
+.kinetik-footer-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 25px; }
+.kinetik-footer-col h3 { font-size: 18px; font-weight: 500; margin-bottom: 22px; }
+.kinetik-footer-col p { color: #777; margin: 17px 0; cursor: pointer; }
+.kinetik-footer-bottom { border-top: 1px solid #ddd; margin-top: 45px; padding-top: 25px; display: flex; justify-content: space-between; color: #777; font-size: 14px; }
+
+.kinetik-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.4); z-index: 100; }
+.kinetik-cart-panel { position: fixed; z-index: 101; right: 0; top: 0; height: 100vh; width: 460px; max-width: 100%; background: white; display: flex; flex-direction: column; color: #111; }
+.kinetik-cart-header { padding: 25px; display: flex; justify-content: space-between; border-bottom: 1px solid #ddd; font-size: 21px; }
+.kinetik-cart-items { padding: 0 25px; overflow-y: auto; flex: 1; }
+.kinetik-cart-item { display: flex; align-items: center; gap: 18px; padding: 18px 0; border-bottom: 1px solid #ddd; }
+.kinetik-cart-letter { width: 64px; height: 64px; background: #111; color: white; display: grid; place-items: center; font-size: 27px; font-weight: bold; }
+.kinetik-cart-item-info { flex: 1; }
+.kinetik-cart-item-info p { color: #777; margin: 5px 0; font-size: 14px; }
+.kinetik-cart-item-price { text-align: right; font-size: 14px; }
+.kinetik-remove { color: #777; text-decoration: underline; border: none; background: transparent; margin-top: 8px; }
+.kinetik-cart-footer { border-top: 1px solid #ddd; padding: 22px 25px; }
+.kinetik-total-row { display: flex; justify-content: space-between; margin-bottom: 10px; }
+.kinetik-cart-footer small { color: #777; }
+.kinetik-checkout-btn { width: 100%; margin-top: 20px; border: none; background: #111; color: white; padding: 20px; border-radius: 40px; font-size: 17px; }
+.kinetik-empty { color: #777; text-align: center; padding: 60px 10px; }
+.kinetik-close { border: 0; background: transparent; font-size: 24px; color: #111; }
+
+.kinetik-booking-backdrop {
+  position: fixed; inset: 0; background: rgba(15,23,42,.55);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px; z-index: 100; overflow-y: auto;
+}
+.kinetik-booking-modal {
+  background: white; width: 650px; max-width: 100%;
+  max-height: 94vh; overflow-y: auto; border-radius: 24px;
+  padding: 35px; position: relative; color: #111;
+}
+.kinetik-booking-close {
+  position: absolute; top: 20px; right: 20px; width: 38px; height: 38px;
+  display: grid; place-items: center; background: #f1f5f9; border: 0; border-radius: 50%;
+}
+.kinetik-booking-heading > span { color: #6366f1; font-size: 11px; letter-spacing: 1.6px; font-weight: 800; }
+.kinetik-booking-heading h2 { font-size: 30px; margin: 10px 0; }
+.kinetik-booking-heading p { color: #64748b; font-size: 14px; line-height: 1.6; }
+.kinetik-selected-employees { display: grid; gap: 8px; margin: 23px 0; }
+.kinetik-selected-employee {
+  display: flex; align-items: center; gap: 13px;
+  background: #fafafa; border: 1px solid #e5e7eb; padding: 13px; border-radius: 14px;
+}
+.kinetik-employee-avatar {
+  width: 48px; height: 48px; border-radius: 14px;
+  display: grid; place-items: center; font-size: 23px; font-weight: 800; flex-shrink: 0;
+}
+.kinetik-selected-employee p { margin: 4px 0 0; color: #64748b; font-size: 12px; }
+.kinetik-selected-label { margin-left: auto; color: #10b981; font-size: 11px; font-weight: 700; }
+.kinetik-booking-modal form label {
+  display: block; font-weight: 700; font-size: 13px; margin: 20px 0 10px;
+}
+.kinetik-date-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 7px; }
+.kinetik-date-option {
+  border: 1px solid #e5e7eb; border-radius: 10px; color: #111;
+  background: white; padding: 9px 3px; display: flex;
+  flex-direction: column; align-items: center; gap: 4px;
+}
+.kinetik-date-option span, .kinetik-date-option small { font-size: 10px; color: #64748b; }
+.kinetik-date-option strong { font-size: 17px; }
+.kinetik-time-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
+.kinetik-time-slot-wrap { position: relative; min-width: 0; }
+.kinetik-time-slot-wrap .kinetik-time-option { width: 100%; padding-right: 28px; }
+.kinetik-remove-slot {
+  position: absolute; right: 5px; top: 50%; transform: translateY(-50%);
+  width: 20px; height: 20px; padding: 0; border: 0; border-radius: 50%;
+  display: grid; place-items: center; background: #f1f5f9; color: #64748b;
+}
+.kinetik-custom-slot { display: grid; grid-template-columns: 1fr auto; gap: 8px; margin-top: 10px; }
+.kinetik-custom-slot input {
+  border: 1px solid #e5e7eb; border-radius: 10px; padding: 11px 12px; color: #111;
+}
+.kinetik-custom-slot button {
+  border: 0; border-radius: 10px; background: #111; color: white; padding: 11px 14px; font-size: 12px;
+}
+.kinetik-slot-error, .kinetik-no-slots { color: #64748b; font-size: 12px; margin: 8px 0 0; }
+.kinetik-slot-error { color: #dc2626; }
+.kinetik-time-option, .kinetik-tool-option {
+  border: 1px solid #e5e7eb; border-radius: 10px;
+  background: white; color: #111; padding: 12px 7px; font-size: 12px;
+  display: flex; align-items: center; justify-content: center; gap: 5px;
+}
+.kinetik-chosen { border-color: #6366f1 !important; }
+.chosen { border-color: #6366f1 !important; background: #eef2ff !important; color: #6366f1 !important; }
+.kinetik-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.kinetik-form-grid input {
+  width: 100%; border: 1px solid #e5e7eb; border-radius: 10px;
+  padding: 13px; outline: none; background: white; font-size: 13px; color: #111;
+}
+.kinetik-form-grid input:focus { border-color: #6366f1; }
+.kinetik-tool-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+.kinetik-tool-option { padding: 10px 14px; }
+.kinetik-primary-full {
+  width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px;
+  margin-top: 20px; border: 0; border-radius: 12px; padding: 15px;
+  background: #111; color: white; font-weight: 700;
+}
+.kinetik-primary-full:disabled { opacity: .55; cursor: not-allowed; }
+.kinetik-form-note { text-align: center; color: #94a3b8; font-size: 11px; margin-top: 14px; }
+.kinetik-booking-error { color: #dc2626; background: #fef2f2; padding: 12px; border-radius: 10px; font-size: 13px; }
+.kinetik-booking-success { text-align: center; padding: 25px 5px; }
+.kinetik-success-icon {
+  display: inline-grid; place-items: center; width: 75px; height: 75px;
+  background: #d1fae5; color: #059669; border-radius: 50%;
+}
+.kinetik-booking-success h2 { font-size: 30px; }
+.kinetik-booking-success > p { color: #64748b; }
+.kinetik-confirmation-box {
+  display: grid; gap: 8px; background: #fafafa; border: 1px solid #e5e7eb;
+  border-radius: 13px; padding: 17px; margin: 22px 0;
+}
+.kinetik-confirmation-box p { color: #64748b; font-size: 13px; margin: 2px 0; }
+.kinetik-spin { animation: kinetik-spin 1s linear infinite; }
+@keyframes kinetik-spin { to { transform: rotate(360deg); } }
+
+@media(max-width: 1000px) {
+  .kinetik-nav-links { gap: 13px; }
+  .kinetik-nav-links button { font-size: 13px; }
+  .kinetik-employee-grid { grid-template-columns: repeat(2,1fr); }
+  .kinetik-employee-image { height: 320px; }
+  .kinetik-hero h1 { font-size: 110px; }
+}
+@media(max-width: 650px) {
+  .kinetik-navbar { height: auto; min-height: 65px; flex-wrap: wrap; padding: 12px 4%; }
+  .kinetik-nav-links { order: 3; width: 100%; overflow-x: auto; padding: 10px 0; }
+  .kinetik-nav-right { gap: 10px; }
+  .kinetik-search-box { width: 150px; }
+  .kinetik-hero { min-height: 620px; padding: 50px 5%; }
+  .kinetik-hero h1 { font-size: 76px; letter-spacing: -4px; }
+  .kinetik-hero p { font-size: 17px; }
+  .kinetik-crew-heading h2 { font-size: 45px; }
+  .kinetik-employee-grid { grid-template-columns: 1fr 1fr; gap: 30px 12px; }
+  .kinetik-employee-image { height: 210px; }
+  .kinetik-employee-letter { font-size: 110px; }
+  .kinetik-employee-icon { width: 48px; height: 48px; font-size: 20px; }
+  .kinetik-employee-desc, .kinetik-skills { font-size: 14px; }
+  .kinetik-employee-name { font-size: 15px; }
+  .kinetik-bundle { height: 250px; }
+  .kinetik-featured-grid { grid-template-columns: 1fr; }
+  .kinetik-feature-card { height: 480px; }
+  .kinetik-feature-card h3 { font-size: 44px; }
+  .kinetik-footer-grid { grid-template-columns: 1fr 1fr; }
+  .kinetik-footer-bottom { flex-direction: column; gap: 15px; }
+  .kinetik-booking-modal { padding: 25px 17px; }
+  .kinetik-date-grid { grid-template-columns: repeat(4,1fr); }
+  .kinetik-time-grid { grid-template-columns: repeat(2,1fr); }
+  .kinetik-form-grid { grid-template-columns: 1fr; }
+  .kinetik-custom-slot { grid-template-columns: 1fr; }
+}

@@ -23,14 +23,13 @@ import {
 type InboxFilter = "all" | "new" | "archived";
 
 const AGENT_OPTIONS = [
-  "Operation and Business Strategist / Product Manager",
-  "Category Manager",
-  "Marketing Manager",
+  "Senior Operations Executive",
   "Business Analyst",
-  "Logistics Manager",
+  "Category Manager",
   "Inventory Manager",
-  "Senior Operation Executive",
-  "Customer Experience Refund and Return",
+  "Warehouse Inventory Manager",
+  "Product Manager",
+  "Project Manager",
 ];
 
 export function CEOInbox() {

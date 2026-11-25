@@ -31,7 +31,14 @@ export async function uploadReceivedFile(file: File, clientName: string) {
     throw new Error("Choose a file smaller than 50 MB.");
   }
 
-  const storagePath = `${Date.now()}-${file.name}`;
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError || !user) throw new Error("Please log in before uploading.");
+
+  const safeFileName = file.name.replace(/[\\/]/g, "_");
+  const storagePath = `${user.id}/${crypto.randomUUID()}-${safeFileName}`;
   const contentType = file.type || "application/octet-stream";
   const { error: uploadError } = await supabase.storage
     .from(INBOX_BUCKET)
@@ -45,6 +52,7 @@ export async function uploadReceivedFile(file: File, clientName: string) {
     content_type: contentType,
     size_bytes: file.size,
     storage_path: storagePath,
+    user_id: user.id,
   });
 
   if (recordError) {

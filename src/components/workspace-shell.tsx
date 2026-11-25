@@ -17,8 +17,8 @@ export function WorkspaceShell({
       <WorkspaceBackground />
       <header className="workspace-header">
         <div className="workspace-brand">
-          <Link to="/" className="font-display text-lg font-semibold tracking-tight">
-            Singularity
+          <Link to="/workspace" className="font-display text-lg font-semibold tracking-tight">
+            KINETIK
           </Link>
         </div>
         <nav className="workspace-nav" aria-label="Workspace">

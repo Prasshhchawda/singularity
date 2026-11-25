@@ -10,13 +10,27 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AgentWorkspaceRouteImport } from './routes/agent-workspace'
+import { Route as GetAgentRouteImport } from './routes/get-agent'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SendRouteImport } from './routes/send'
+import { Route as SysControl9xRouteImport } from './routes/sys-control-9x'
+import { Route as WorkspaceRouteImport } from './routes/workspace'
 import { Route as ApiChatRouteImport } from './routes/api.chat'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AgentWorkspaceRoute = AgentWorkspaceRouteImport.update({
+  id: '/agent-workspace',
+  path: '/agent-workspace',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GetAgentRoute = GetAgentRouteImport.update({
+  id: '/get-agent',
+  path: '/get-agent',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -29,6 +43,16 @@ const SendRoute = SendRouteImport.update({
   path: '/send',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SysControl9xRoute = SysControl9xRouteImport.update({
+  id: '/sys-control-9x',
+  path: '/sys-control-9x',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const WorkspaceRoute = WorkspaceRouteImport.update({
+  id: '/workspace',
+  path: '/workspace',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiChatRoute = ApiChatRouteImport.update({
   id: '/api/chat',
   path: '/api/chat',
@@ -37,35 +61,76 @@ const ApiChatRoute = ApiChatRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/agent-workspace': typeof AgentWorkspaceRoute
+  '/get-agent': typeof GetAgentRoute
   '/reset-password': typeof ResetPasswordRoute
   '/send': typeof SendRoute
+  '/sys-control-9x': typeof SysControl9xRoute
+  '/workspace': typeof WorkspaceRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/agent-workspace': typeof AgentWorkspaceRoute
+  '/get-agent': typeof GetAgentRoute
   '/reset-password': typeof ResetPasswordRoute
   '/send': typeof SendRoute
+  '/sys-control-9x': typeof SysControl9xRoute
+  '/workspace': typeof WorkspaceRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/agent-workspace': typeof AgentWorkspaceRoute
+  '/get-agent': typeof GetAgentRoute
   '/reset-password': typeof ResetPasswordRoute
   '/send': typeof SendRoute
+  '/sys-control-9x': typeof SysControl9xRoute
+  '/workspace': typeof WorkspaceRoute
   '/api/chat': typeof ApiChatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/reset-password' | '/send' | '/api/chat'
+  fullPaths:
+    | '/'
+    | '/agent-workspace'
+    | '/get-agent'
+    | '/reset-password'
+    | '/send'
+    | '/sys-control-9x'
+    | '/workspace'
+    | '/api/chat'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/reset-password' | '/send' | '/api/chat'
-  id: '__root__' | '/' | '/reset-password' | '/send' | '/api/chat'
+  to:
+    | '/'
+    | '/agent-workspace'
+    | '/get-agent'
+    | '/reset-password'
+    | '/send'
+    | '/sys-control-9x'
+    | '/workspace'
+    | '/api/chat'
+  id:
+    | '__root__'
+    | '/'
+    | '/agent-workspace'
+    | '/get-agent'
+    | '/reset-password'
+    | '/send'
+    | '/sys-control-9x'
+    | '/workspace'
+    | '/api/chat'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AgentWorkspaceRoute: typeof AgentWorkspaceRoute
+  GetAgentRoute: typeof GetAgentRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SendRoute: typeof SendRoute
+  SysControl9xRoute: typeof SysControl9xRoute
+  WorkspaceRoute: typeof WorkspaceRoute
   ApiChatRoute: typeof ApiChatRoute
 }
 
@@ -76,6 +141,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/agent-workspace': {
+      id: '/agent-workspace'
+      path: '/agent-workspace'
+      fullPath: '/agent-workspace'
+      preLoaderRoute: typeof AgentWorkspaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/get-agent': {
+      id: '/get-agent'
+      path: '/get-agent'
+      fullPath: '/get-agent'
+      preLoaderRoute: typeof GetAgentRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -92,6 +171,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SendRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sys-control-9x': {
+      id: '/sys-control-9x'
+      path: '/sys-control-9x'
+      fullPath: '/sys-control-9x'
+      preLoaderRoute: typeof SysControl9xRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/workspace': {
+      id: '/workspace'
+      path: '/workspace'
+      fullPath: '/workspace'
+      preLoaderRoute: typeof WorkspaceRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/chat': {
       id: '/api/chat'
       path: '/api/chat'
@@ -104,8 +197,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AgentWorkspaceRoute: AgentWorkspaceRoute,
+  GetAgentRoute: GetAgentRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SendRoute: SendRoute,
+  SysControl9xRoute: SysControl9xRoute,
+  WorkspaceRoute: WorkspaceRoute,
   ApiChatRoute: ApiChatRoute,
 }
 export const routeTree = rootRouteImport

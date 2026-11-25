@@ -1,0 +1,81 @@
+name: Build macOS DMG
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/**"
+      - "public/**"
+      - "electron-main.cjs"
+      - "package.json"
+      - "package-lock.json"
+      - "vite.config.ts"
+      - ".github/workflows/build-macos.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build macOS DMG (${{ matrix.name }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: Apple Silicon
+            runner: macos-26
+            arch: arm64
+          - name: Intel
+            runner: macos-26-intel
+            arch: x64
+
+    runs-on: ${{ matrix.runner }}
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Validate Supabase build secrets
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+        run: |
+          node -e '
+            const required = ["VITE_SUPABASE_URL", "VITE_SUPABASE_ANON_KEY"];
+            const missing = required.filter((name) => !process.env[name]?.trim());
+            if (missing.length) {
+              console.error(`Missing required GitHub Actions secrets: ${missing.join(", ")}`);
+              process.exit(1);
+            }
+          '
+
+      - name: Build application
+        run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+          GEMINI_API_KEY: ""
+
+      - name: Package macOS DMG
+        run: npx electron-builder --mac dmg --${{ matrix.arch }}
+        env:
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+
+      - name: Upload DMG
+        uses: actions/upload-artifact@v4
+        with:
+          name: Singularity-mac-${{ matrix.arch }}
+          path: dist-installer/*.dmg
+          if-no-files-found: error
+          retention-days: 14

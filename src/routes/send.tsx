@@ -54,7 +54,8 @@ function ClientUpload() {
       }
 
       const contentType = file.type || "application/octet-stream";
-      const storagePath = `${Date.now()}-${file.name}`;
+      const safeFileName = file.name.replace(/[\\/]/g, "_");
+      const storagePath = `${user.id}/${crypto.randomUUID()}-${safeFileName}`;
 
       const { error: uploadError } = await supabase.storage
         .from("singularity-inbox")
@@ -74,6 +75,7 @@ function ClientUpload() {
         content_type: contentType,
         size_bytes: file.size,
         storage_path: storagePath,
+        user_id: user.id,
       });
 
       if (databaseError) {

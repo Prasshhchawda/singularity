@@ -194,6 +194,13 @@
 .workspace-shell-workflow .agent-chat-card { min-height: 0; flex: 1 1 0; }
 .workspace-shell-workflow .agent-messages { min-height: 0; }
 
+.workspace-shell-workflow > .kinetik-chat-layout,
+.workspace-shell-workflow > .agent-workspace > .kinetik-chat-layout {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
 .ceo-inbox {
   --glass-line: rgba(255, 255, 255, .105);
   --glass-fill: rgba(255, 255, 255, .035);
