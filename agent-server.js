@@ -115,7 +115,7 @@ app.post("/api/agent", async (req, res) => {
     });
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-3.8-flash",
       contents: `
 You are ${agentName} on the Singularity AI team.
 Your role: ${agentRole}
