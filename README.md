@@ -42,10 +42,12 @@ The demo workspace sends tasks to the standalone Gemini service in
     are supported.
 
 The service listens on Render's `PORT`, exposes `GET /health`, and accepts demo
-tasks at `POST /api/agent`. Set `VITE_AGENT_API_URL` in the frontend hosting
-provider to the complete endpoint, for example
-`https://your-service.onrender.com/api/agent`, then rebuild/redeploy the
-frontend. Locally, `npm run dev:all` starts the Vite app and this service;
+tasks at `POST /api/agent`. The demo workspace defaults to
+`https://singularity-1-pusr.onrender.com/api/agent`; set `VITE_AGENT_API_URL` in
+the frontend hosting provider only if you use a different backend, then
+rebuild/redeploy the frontend. Set `FRONTEND_ORIGIN` to the frontend's exact
+origin; include local origins as comma-separated values when testing from a
+local browser. Locally, `npm run dev:all` starts the Vite app and this service;
 `GEMINI_API_KEY` can be placed in root `.env.local`.
 
 ## Desktop application

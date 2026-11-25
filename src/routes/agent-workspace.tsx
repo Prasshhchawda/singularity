@@ -191,11 +191,8 @@ function AgentWorkspacePage() {
       }));
       const agentApiUrl = import.meta.env.VITE_AGENT_API_URL?.trim();
       const endpoint = demo
-        ? agentApiUrl || (import.meta.env.DEV ? "http://localhost:3001/api/agent" : "")
+        ? agentApiUrl || "https://singularity-1-pusr.onrender.com/api/agent"
         : "/api/chat";
-      if (!endpoint) {
-        throw new Error("Set VITE_AGENT_API_URL to your Render backend /api/agent URL.");
-      }
       const payload = demo
         ? {
             task: text,
