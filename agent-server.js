@@ -129,8 +129,8 @@ Do not claim to have performed real-world actions you did not perform.
     });
 
     res.json({ reply: response.text || "No response returned." });
-  } catch (error) {
-    console.error("Agent request failed:", error instanceof Error ? error.message : String(error));
+  } catch (err) {
+    console.error(err);
     res.status(500).json({
       error: "The agent request failed. Check the server terminal.",
     });
