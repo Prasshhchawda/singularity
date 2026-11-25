@@ -189,10 +189,7 @@ function AgentWorkspacePage() {
         role: item.sender === "agent" ? ("assistant" as const) : ("user" as const),
         content: item.text,
       }));
-      const agentApiUrl = import.meta.env.VITE_AGENT_API_URL?.trim();
-      const endpoint = demo
-        ? agentApiUrl || "https://singularity-1-pusr.onrender.com/api/agent"
-        : "/api/chat";
+      const endpoint = demo ? "https://singularity-1-pusr.onrender.com/api/agent" : "/api/chat";
       const payload = demo
         ? {
             task: text,
