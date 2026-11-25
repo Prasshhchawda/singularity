@@ -1,6 +1,7 @@
-import { createFileRoute } from "@tanstack/react-router";
-import KinetikPage from "../KinetikPage";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
-  component: KinetikPage,
+  beforeLoad: () => {
+    throw redirect({ to: "/agent-workspace", search: { demo: true } });
+  },
 });
