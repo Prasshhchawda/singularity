@@ -8,14 +8,13 @@ dotenv.config();
 const app = express();
 app.set("trust proxy", 1);
 
-const defaultOrigins = ["https://singularity-piov.onrender.com"];
+const defaultOrigins = [
+  "https://singularity-piov.onrender.com",
+  "http://127.0.0.1:8080",
+  "http://localhost:8080",
+];
 if (process.env.NODE_ENV !== "production") {
-  defaultOrigins.push(
-    "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "http://localhost:8080",
-    "http://127.0.0.1:8080",
-  );
+  defaultOrigins.push("http://localhost:5173", "http://127.0.0.1:5173");
 }
 const allowedOrigins = new Set([
   ...defaultOrigins,
