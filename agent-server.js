@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
 import express from "express";
 import { GoogleGenAI } from "@google/genai";
-const cors = require("cors");
+import cors from "cors";
 app.use(cors({ origin: "http://localhost:8081" }));
 
 dotenv.config({ path: ".env.local" });
