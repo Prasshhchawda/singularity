@@ -36,3 +36,6 @@ singularity-project.zip
 *.njsproj
 *.sln
 *.sw?
+
+dist-installer/
+release/
