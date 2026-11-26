@@ -8,6 +8,7 @@ dotenv.config({ path: ".env.local" });
 dotenv.config();
 
 const app = express();
+app.use(cors({ origin: "http://localhost:8081" }));
 app.set("trust proxy", 1);
 
 const defaultOrigins = [
